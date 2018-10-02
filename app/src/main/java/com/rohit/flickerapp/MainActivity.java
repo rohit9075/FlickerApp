@@ -25,12 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+
+    // reference variables
     RecyclerView recyclerView;
 
-    List<ModelClass> imageList = new ArrayList<>();
+    List<ModelClass> imageList;
 
     SwipeRefreshLayout swipeRefreshLayout ;
-
 
     ImageRecyclerAdapter mRecyclerAdapter;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initiateViews();
+        initiateViews(); // method call
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,25 +52,38 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onResume() {
         super.onResume();
 
-        new GetImages().execute();
+        new GetImages().execute(); // asyncTask class call
 
     }
+
+    /**
+     * method to instantiate the variables
+     */
     public void initiateViews(){
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
+
+        imageList = new ArrayList<>();
+
     }
 
+    /**
+     * method to handle swipe event
+     */
     @Override
     public void onRefresh() {
 
-        new GetImages().execute();
+        new GetImages().execute(); // execute async task class
 
     }
 
 
+    /**
+     * inner async task class
+     */
     public class GetImages extends AsyncTask<Void, Void, Void> {
 
 
