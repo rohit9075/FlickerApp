@@ -1,6 +1,5 @@
 package com.rohit.flickerapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -11,9 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -31,13 +28,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     // reference variables
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
 
-    List<ModelClass> imageList;
+    List<ModelClass> mFlickerDatalist;
 
-    SwipeRefreshLayout swipeRefreshLayout ;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
-    ImageRecyclerAdapter mRecyclerAdapter;
+    ImageRecyclerAdapter mImageRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +58,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     public void initiateViews(){
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        imageList = new ArrayList<>();
+        mFlickerDatalist = new ArrayList<>();
 
     }
 
@@ -96,28 +93,28 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             if (jsonString != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
-                    JSONArray article = jsonObject.getJSONArray("items");
+                    JSONArray mFlickerJsonObject = jsonObject.getJSONArray("items");
 
-                    imageList.clear();
+                    mFlickerDatalist.clear();
 
-                    for (int i = 0; i < article.length(); i++) {
-                        JSONObject jsonObject1 = article.optJSONObject(i);
-                        ModelClass mobj=new ModelClass();
+                    for (int i = 0; i < mFlickerJsonObject.length(); i++) {
+                        JSONObject jsonObject1 = mFlickerJsonObject.optJSONObject(i);
+                        ModelClass mFlickerObject=new ModelClass();
 
-                        mobj.setTitle(jsonObject1.getString("title"));
+                        mFlickerObject.setTitle(jsonObject1.getString("title"));
 
-                        mobj.setAuthor(jsonObject1.getString("author"));
+                        mFlickerObject.setAuthor(jsonObject1.getString("author"));
 
-                        mobj.setTags(jsonObject1.getString("tags"));
+                        mFlickerObject.setTags(jsonObject1.getString("tags"));
 
                         JSONObject jsonObject2 = jsonObject1.getJSONObject("media");
                         String photoUrl = jsonObject2.getString("m");
 
                         String link = photoUrl.replaceFirst("_m.","_b.");
 
-                        mobj.setImage(link);
+                        mFlickerObject.setImage(link);
 
-                        imageList.add(mobj);
+                        mFlickerDatalist.add(mFlickerObject);
 
                     }
                 } catch (JSONException e) {
@@ -146,12 +143,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if(swipeRefreshLayout.isRefreshing()){
-                swipeRefreshLayout.setRefreshing(false);
+            if(mSwipeRefreshLayout.isRefreshing()){
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
 
-            mRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this,imageList);
+            mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
 
             //********************** added in the version 2.0 ********************************
 
@@ -163,15 +160,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
             if (grid){
-                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
             }
             else {
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
             //********************** added in the version 2.0 ********************************
 
-            recyclerView.setAdapter(mRecyclerAdapter);
+            mRecyclerView.setAdapter(mImageRecyclerAdapter);
         }
     }
 
