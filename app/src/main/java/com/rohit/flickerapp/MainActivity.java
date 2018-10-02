@@ -1,10 +1,14 @@
 package com.rohit.flickerapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -42,10 +46,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         initiateViews(); // method call
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //  set layout manager to recyclerview
-
-
-
     }
 
     @Override
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
-
 
         imageList = new ArrayList<>();
 
@@ -154,7 +153,42 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             mRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this,imageList);
 
+            // creating the object of the SharedPreferences class
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+            // getting the boolean value form the preferences as per user selection
+            Boolean grid = settings.getBoolean(getString(R.string.pref_display_grid),false);
+
+
+
+            if (grid){
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            }
+            else {
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            }
+
             recyclerView.setAdapter(mRecyclerAdapter);
         }
+    }
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // Show the settings screen
+                Intent settingsIntent = new Intent(this, PrefsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
