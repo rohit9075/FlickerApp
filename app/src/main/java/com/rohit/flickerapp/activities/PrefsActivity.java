@@ -1,9 +1,11 @@
-package com.rohit.flickerapp;
+package com.rohit.flickerapp.activities;
 
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.rohit.flickerapp.R;
 
 public class PrefsActivity extends AppCompatActivity {
 

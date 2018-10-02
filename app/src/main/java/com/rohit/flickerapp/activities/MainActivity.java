@@ -1,4 +1,4 @@
-package com.rohit.flickerapp;
+package com.rohit.flickerapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.adapter.ImageRecyclerAdapter;
 import com.rohit.flickerapp.model.ModelClass;
 import com.rohit.flickerapp.utils.HttpHandler;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     public void initiateViews(){
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
