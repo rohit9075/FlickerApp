@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
 
+            // adapter initialization
             mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
 
             //********************** added in the version 2.0 ********************************
