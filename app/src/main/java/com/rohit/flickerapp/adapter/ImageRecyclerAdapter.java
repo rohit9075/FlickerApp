@@ -24,6 +24,7 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
     List<ModelClass> imageList;
     Context context;
 
+    //********************** added in the version 2.0 ********************************
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
     public ImageRecyclerAdapter(Context context, List<ModelClass> imageList) {
@@ -38,6 +39,7 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
+        //********************** added in the version 2.0 ********************************
         // creating the object of the SharedPreferences class
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -65,6 +67,8 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
         View itemView = inflater.inflate(layoutId, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(itemView);
         return viewHolder;
+
+        //********************** added in the version 2.0 ********************************
 
     }
 

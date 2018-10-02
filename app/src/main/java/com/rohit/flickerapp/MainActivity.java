@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             mRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this,imageList);
 
+            //********************** added in the version 2.0 ********************************
+
             // creating the object of the SharedPreferences class
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
             // getting the boolean value form the preferences as per user selection
@@ -167,12 +169,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
+            //********************** added in the version 2.0 ********************************
+
             recyclerView.setAdapter(mRecyclerAdapter);
         }
     }
 
 
 
+    //********************** added in the version 2.0 ********************************
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,4 +196,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //********************** added in the version 2.0 ********************************
 }

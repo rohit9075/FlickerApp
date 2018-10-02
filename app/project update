@@ -1,0 +1,17 @@
+************** Notes for version 1.0 *******************************
+
+1. Fetching the data from the flicker server using flicker api link.
+2. Display it into the recyclerView.
+
+************************ Notes for version 2.0 *********************
+
+1. add menu file - main menu
+2. Menu java code in Main Activity
+3. create new Activity PrefsActivity
+4. Complete the code of PrefsActivity (java and XML)
+5. Add the XML Directory and related files in XML directory
+6. Add the grid layout file in layout directory
+7. Modify the onCreateViewHolder code in ImageRecyclerAdapter.
+8. Add the String data to the string files within the value directory
+
+************************ Notes for version 2.0 *********************
