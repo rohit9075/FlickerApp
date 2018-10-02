@@ -12,8 +12,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.rohit.flickerapp.Listner.RecyclerOnClickListner;
+import com.rohit.flickerapp.Listner.RecyclerViewTouchListener;
 import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.adapter.ImageRecyclerAdapter;
 import com.rohit.flickerapp.model.ModelClass;
@@ -44,6 +47,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         initiateViews(); // method call
 
+        handlingRecyclerViewItemClick();  // method call
+
+    }
+
+    //********************** added in the version 3.0 ********************************
+
+    private void handlingRecyclerViewItemClick() {
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(MainActivity.this, mRecyclerView, new RecyclerOnClickListner() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Intent mIntentPhotoDetailActivity = new Intent(MainActivity.this, PhotoDetailActivity.class);
+                startActivity(mIntentPhotoDetailActivity);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @Override
@@ -147,33 +171,40 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             if(mSwipeRefreshLayout.isRefreshing()){
                 mSwipeRefreshLayout.setRefreshing(false);
             }
+            recyclerViewInitialisation();
 
 
-            // adapter initialization
-            mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
-
-            //********************** added in the version 2.0 ********************************
-
-            // creating the object of the SharedPreferences class
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            // getting the boolean value form the preferences as per user selection
-            Boolean grid = settings.getBoolean(getString(R.string.pref_display_grid),false);
-
-
-
-            if (grid){
-                mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-            }
-            else {
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-
-            //********************** added in the version 2.0 ********************************
-
-            mRecyclerView.setAdapter(mImageRecyclerAdapter);
         }
     }
 
+    //********************** added in the version 3.0 ********************************
+
+    private void recyclerViewInitialisation() {
+        // adapter initialization
+        mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
+
+        //********************** added in the version 2.0 ********************************
+
+        // creating the object of the SharedPreferences class
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        // getting the boolean value form the preferences as per user selection
+        Boolean grid = settings.getBoolean(getString(R.string.pref_display_grid),false);
+
+
+        if (grid){
+            mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        }
+        else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        }
+
+        //********************** added in the version 2.0 ********************************
+
+        mRecyclerView.setAdapter(mImageRecyclerAdapter);
+
+
+
+    }
 
 
     //********************** added in the version 2.0 ********************************
