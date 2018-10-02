@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // reference variables
     RecyclerView mRecyclerView;
 
-    List<ModelClass> mFlickerDatalist;
+    List<ModelClass> mFlickerDataList;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onLongClick(View view, int position) {
 
+                // handle event in long press
             }
         }));
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mFlickerDatalist = new ArrayList<>();
+        mFlickerDataList = new ArrayList<>();
 
     }
 
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     JSONObject jsonObject = new JSONObject(jsonString);
                     JSONArray mFlickerJsonObject = jsonObject.getJSONArray("items");
 
-                    mFlickerDatalist.clear();
+                    mFlickerDataList.clear();
 
                     for (int i = 0; i < mFlickerJsonObject.length(); i++) {
                         JSONObject jsonObject1 = mFlickerJsonObject.optJSONObject(i);
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                         mFlickerObject.setImage(link);
 
-                        mFlickerDatalist.add(mFlickerObject);
+                        mFlickerDataList.add(mFlickerObject);
 
                     }
                 } catch (JSONException e) {
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void recyclerViewInitialisation() {
         // adapter initialization
-        mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
+        mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDataList);
 
         //********************** added in the version 2.0 ********************************
 
