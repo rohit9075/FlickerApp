@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             if(mSwipeRefreshLayout.isRefreshing()){
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-            recyclerViewInitialisation();
+            recyclerViewInitialisation(); // method call
 
 
         }
