@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         protected Void doInBackground(Void... voids) {
 
             HttpHandler httpHandler = new HttpHandler();
-            String jsonString = httpHandler.makeServiceCall("https://api.flickr.com/services/feeds/photos_public.gne?tags="+ "car" +"&tagmode=any&format=json&nojsoncallback=1");
+            String jsonString = httpHandler.makeServiceCall("https://api.flickr.com/services/feeds/photos_public.gne?tags="+searchQuery +"&tagmode=any&format=json&nojsoncallback=1");
 
 
             if (jsonString != null) {
@@ -233,9 +233,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 startActivity(settingsIntent);
                break;
 
-            case R.id.item_search:
-                // Show the settings screen
-               break;
+            case R.id.menu_main_search:
+                Intent intent = new Intent(this,SearchActivity.class);
+                startActivity(intent);
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

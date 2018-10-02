@@ -5,12 +5,14 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.SearchView;
 
 import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.utils.SharedPreference;
+
+import java.util.Objects;
 
 
 public class SearchActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         sharedPreference = new SharedPreference(this);
     }
@@ -37,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
         searchView = (SearchView) menu.findItem(R.id.menu_search_activity).getActionView();
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
+        searchView.setMaxWidth( Integer.MAX_VALUE );
 
         searchView.setIconified(false);
 
