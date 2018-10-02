@@ -21,6 +21,7 @@ import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.adapter.ImageRecyclerAdapter;
 import com.rohit.flickerapp.model.ModelClass;
 import com.rohit.flickerapp.utils.HttpHandler;
+import com.rohit.flickerapp.utils.SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,11 +35,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // reference variables
     RecyclerView mRecyclerView;
 
+    String searchQuery;
+
     List<ModelClass> mFlickerDataList;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     ImageRecyclerAdapter mImageRecyclerAdapter;
+
+    SharedPreference sharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onResume() {
         super.onResume();
 
+        searchQuery = sharedPreference.getSearchQuery();
         new GetImages().execute(); // asyncTask class call
 
     }
@@ -89,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mFlickerDataList = new ArrayList<>();
+
+        sharedPreference = new SharedPreference(MainActivity.this);
 
     }
 
@@ -223,7 +231,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 // Show the settings screen
                 Intent settingsIntent = new Intent(this, PrefsActivity.class);
                 startActivity(settingsIntent);
-                return true;
+               break;
+
+            case R.id.item_search:
+                // Show the settings screen
+               break;
         }
         return super.onOptionsItemSelected(item);
     }

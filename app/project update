@@ -4,7 +4,7 @@
 2. Display it into the recyclerView.
 
 ************************ Notes for version 2.0 *********************
-Implementing the layout preference (linear Layout or Grid Layout)
+ Implementing the layout preference (linear Layout or Grid Layout)
 
 1. add menu file - main menu
 2. Menu java code in Main Activity
@@ -24,3 +24,12 @@ Click Handling on the recyclerView Items.
 3. write your action to onclick and onLongClick method.
 
 ************************ Notes for version 4.0 *********************
+        Providing the Dynamic search
+1. Add the search Activity.
+2. Add the shared Preference file in the utils package.
+3. Add the menu item to main_menu.xml
+4. Add menu_search.xml to menu directory
+5. Add all the reference variables.
+6.
+
+
