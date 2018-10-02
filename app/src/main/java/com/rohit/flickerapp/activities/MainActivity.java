@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
@@ -80,7 +81,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onResume() {
         super.onResume();
 
+
+
         searchQuery = sharedPreference.getSearchQuery();
+        Objects.requireNonNull(getSupportActionBar()).setTitle(searchQuery);
         new GetImages().execute(); // asyncTask class call
 
     }
