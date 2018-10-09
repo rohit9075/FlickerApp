@@ -58,7 +58,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onClick(View view, int position) {
 
+                ModelClass modelClass = mFlickerDataList.get(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("author" , modelClass.getAuthor());
+                bundle.putString("title",modelClass.getTitle());
+                bundle.putString("tags" , modelClass.getTags());
+                bundle.putString("link", modelClass.getImage());
+
                 Intent mIntentPhotoDetailActivity = new Intent(MainActivity.this, PhotoDetailActivity.class);
+                mIntentPhotoDetailActivity.putExtras(bundle);
                 startActivity(mIntentPhotoDetailActivity);
 
             }

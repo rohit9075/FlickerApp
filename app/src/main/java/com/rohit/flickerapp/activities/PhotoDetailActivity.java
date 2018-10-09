@@ -7,14 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohit.flickerapp.R;
-import com.rohit.flickerapp.utils.SharedPreference;
 import com.squareup.picasso.Picasso;
 
 public class PhotoDetailActivity extends AppCompatActivity  {
 
     private TextView author,title,tags,link;
     private ImageView image;
-    private SharedPreference sharedPreference;
 
 
     private String[] listItems;
@@ -31,24 +29,25 @@ public class PhotoDetailActivity extends AppCompatActivity  {
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
 
-        sharedPreference = new SharedPreference(this);
+        Bundle bundle = getIntent().getExtras();
 
-        author.setText("Author : " + sharedPreference.getImageAuthor());
-        title.setText("Title : "+sharedPreference.getImageTitle());
-        tags.setText("Tags : "+sharedPreference.getImageTags());
-        link.setText("Link : "+sharedPreference.getUrl());
-        Picasso.with(PhotoDetailActivity.this).load(sharedPreference.getUrl()).into(image);
+        author.setText("Author :"  + bundle.getString("author"));
+        title.setText("Title : "+bundle.getString("title"));
+        tags.setText("Tags : "+bundle.getString("tags"));
+        link.setText("Link : "+bundle.getString("link"));
+        String link  =  bundle.getString("link");
+
+        Picasso.with(PhotoDetailActivity.this).load(link).into(image);
 
     }
 
     public void initiateViews(){
 
-        author = (TextView)findViewById(R.id.photo_author);
-        title = (TextView)findViewById(R.id.photo_title);
-        tags = (TextView)findViewById(R.id.photo_tags);
-        link = (TextView)findViewById(R.id.photo_link);
-
-        image = (ImageView)findViewById(R.id.photo_image);
+        author = findViewById(R.id.photo_author);
+        title = findViewById(R.id.photo_title);
+        tags = findViewById(R.id.photo_tags);
+        link = findViewById(R.id.photo_link);
+        image = findViewById(R.id.photo_image);
 
     }
 
