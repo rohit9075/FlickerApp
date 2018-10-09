@@ -14,18 +14,12 @@ public class PhotoDetailActivity extends AppCompatActivity  {
     private TextView author,title,tags,link;
     private ImageView image;
 
-
-    private String[] listItems;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_detail);
 
         initiateViews();
-
-        listItems = new String[]{"Download Image", "Share Image","Share Image Link"};
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
 
