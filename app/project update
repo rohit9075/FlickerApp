@@ -4,6 +4,7 @@
 2. Display it into the recyclerView.
 
 ************************ Notes for version 2.0 *********************
+ Implementing the layout preference (linear Layout or Grid Layout)
 
 1. add menu file - main menu
 2. Menu java code in Main Activity
@@ -14,4 +15,23 @@
 7. Modify the onCreateViewHolder code in ImageRecyclerAdapter.
 8. Add the String data to the string files within the value directory
 
-************************ Notes for version 2.0 *********************
+************************ Notes for version 3.0 *********************
+
+Click Handling on the recyclerView Items.
+
+1. Add the listener package and interfaces to your project.
+2. implement the interfaces to your recyclerView object.
+3. write your action to onclick and onLongClick method.
+
+************************ Notes for version 4.0 *********************
+        Providing the Dynamic search
+1. Add the search Activity.
+2. Add the shared Preference file in the utils package.
+3. Add the menu item to main_menu.xml
+4. Add menu_search.xml to menu directory
+5. Add all the reference variables.
+
+************************ Notes for version 5.0 *********************
+
+
+

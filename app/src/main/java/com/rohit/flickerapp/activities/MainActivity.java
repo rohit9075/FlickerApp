@@ -12,12 +12,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.rohit.flickerapp.Listner.RecyclerOnClickListner;
+import com.rohit.flickerapp.Listner.RecyclerViewTouchListener;
 import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.adapter.ImageRecyclerAdapter;
 import com.rohit.flickerapp.model.ModelClass;
 import com.rohit.flickerapp.utils.HttpHandler;
+import com.rohit.flickerapp.utils.SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,17 +29,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     // reference variables
     RecyclerView mRecyclerView;
 
-    List<ModelClass> mFlickerDatalist;
+    String searchQuery;
+
+    List<ModelClass> mFlickerDataList;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     ImageRecyclerAdapter mImageRecyclerAdapter;
+
+    SharedPreference sharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +53,38 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         initiateViews(); // method call
 
+        handlingRecyclerViewItemClick();  // method call
+
+    }
+
+    //********************** added in the version 3.0 ********************************
+
+    private void handlingRecyclerViewItemClick() {
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(MainActivity.this, mRecyclerView, new RecyclerOnClickListner() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Intent mIntentPhotoDetailActivity = new Intent(MainActivity.this, PhotoDetailActivity.class);
+                startActivity(mIntentPhotoDetailActivity);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+                // handle event in long press
+            }
+        }));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+
+
+        searchQuery = sharedPreference.getSearchQuery();
+        Objects.requireNonNull(getSupportActionBar()).setTitle(searchQuery);
         new GetImages().execute(); // asyncTask class call
 
     }
@@ -63,7 +98,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mFlickerDatalist = new ArrayList<>();
+        mFlickerDataList = new ArrayList<>();
+
+        sharedPreference = new SharedPreference(MainActivity.this);
 
     }
 
@@ -88,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         protected Void doInBackground(Void... voids) {
 
             HttpHandler httpHandler = new HttpHandler();
-            String jsonString = httpHandler.makeServiceCall("https://api.flickr.com/services/feeds/photos_public.gne?tags="+ "car" +"&tagmode=any&format=json&nojsoncallback=1");
+            String jsonString = httpHandler.makeServiceCall("https://api.flickr.com/services/feeds/photos_public.gne?tags="+searchQuery +"&tagmode=any&format=json&nojsoncallback=1");
 
 
             if (jsonString != null) {
@@ -96,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     JSONObject jsonObject = new JSONObject(jsonString);
                     JSONArray mFlickerJsonObject = jsonObject.getJSONArray("items");
 
-                    mFlickerDatalist.clear();
+                    mFlickerDataList.clear();
 
                     for (int i = 0; i < mFlickerJsonObject.length(); i++) {
                         JSONObject jsonObject1 = mFlickerJsonObject.optJSONObject(i);
@@ -115,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                         mFlickerObject.setImage(link);
 
-                        mFlickerDatalist.add(mFlickerObject);
+                        mFlickerDataList.add(mFlickerObject);
 
                     }
                 } catch (JSONException e) {
@@ -147,32 +184,40 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             if(mSwipeRefreshLayout.isRefreshing()){
                 mSwipeRefreshLayout.setRefreshing(false);
             }
+            recyclerViewInitialisation(); // method call
 
 
-            mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDatalist);
-
-            //********************** added in the version 2.0 ********************************
-
-            // creating the object of the SharedPreferences class
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            // getting the boolean value form the preferences as per user selection
-            Boolean grid = settings.getBoolean(getString(R.string.pref_display_grid),false);
-
-
-
-            if (grid){
-                mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-            }
-            else {
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-
-            //********************** added in the version 2.0 ********************************
-
-            mRecyclerView.setAdapter(mImageRecyclerAdapter);
         }
     }
 
+    //********************** added in the version 3.0 ********************************
+
+    private void recyclerViewInitialisation() {
+        // adapter initialization
+        mImageRecyclerAdapter = new ImageRecyclerAdapter(MainActivity.this, mFlickerDataList);
+
+        //********************** added in the version 2.0 ********************************
+
+        // creating the object of the SharedPreferences class
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        // getting the boolean value form the preferences as per user selection
+        Boolean grid = settings.getBoolean(getString(R.string.pref_display_grid),false);
+
+
+        if (grid){
+            mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        }
+        else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        }
+
+        //********************** added in the version 2.0 ********************************
+
+        mRecyclerView.setAdapter(mImageRecyclerAdapter);
+
+
+
+    }
 
 
     //********************** added in the version 2.0 ********************************
@@ -190,7 +235,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 // Show the settings screen
                 Intent settingsIntent = new Intent(this, PrefsActivity.class);
                 startActivity(settingsIntent);
-                return true;
+               break;
+
+            case R.id.menu_main_search:
+                Intent intent = new Intent(this,SearchActivity.class);
+                startActivity(intent);
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
