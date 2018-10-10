@@ -21,8 +21,6 @@ public class PhotoDetailActivity extends AppCompatActivity  {
 
         initiateViews();
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
-
         Bundle bundle = getIntent().getExtras();
 
         author.setText("Author :"  + bundle.getString("author"));
@@ -44,8 +42,5 @@ public class PhotoDetailActivity extends AppCompatActivity  {
         image = findViewById(R.id.photo_image);
 
     }
-
-
-
 
 }
