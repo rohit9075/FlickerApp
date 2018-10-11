@@ -1,14 +1,12 @@
 package com.rohit.flickerapp.activities;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.rohit.flickerapp.R;
-import com.squareup.picasso.Picasso;
 
 public class PhotoDetailActivity extends AppCompatActivity  {
 

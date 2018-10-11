@@ -12,12 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
 import com.rohit.flickerapp.R;
 import com.rohit.flickerapp.activities.GlideApp;
 import com.rohit.flickerapp.model.ModelClass;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
