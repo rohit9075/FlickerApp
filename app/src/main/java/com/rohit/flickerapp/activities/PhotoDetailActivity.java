@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.rohit.flickerapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,11 @@ public class PhotoDetailActivity extends AppCompatActivity  {
         link.setText("Link : "+bundle.getString("link"));
         String link  =  bundle.getString("link");
 
-        Picasso.with(PhotoDetailActivity.this).load(link).into(image);
+
+        GlideApp.with(PhotoDetailActivity.this)
+                .load(link)
+                .thumbnail(Glide.with(PhotoDetailActivity.this).load(R.drawable.ic_placeholder))
+                .into(image);
 
     }
 

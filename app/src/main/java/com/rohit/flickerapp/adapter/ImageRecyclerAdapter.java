@@ -83,7 +83,6 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
         ModelClass photo = imageList.get(position);
 
 
-//        Picasso.with(context).load(photo.getImage()).placeholder(R.drawable.progress_animation).into(holder.image);
 
 
 
