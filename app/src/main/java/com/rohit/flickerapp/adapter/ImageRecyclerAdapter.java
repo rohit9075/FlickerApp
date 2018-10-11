@@ -13,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.rohit.flickerapp.R;
+import com.rohit.flickerapp.activities.GlideApp;
 import com.rohit.flickerapp.model.ModelClass;
 import com.squareup.picasso.Picasso;
 
@@ -81,7 +83,14 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
         ModelClass photo = imageList.get(position);
 
 
-        Picasso.with(context).load(photo.getImage()).placeholder(R.drawable.progress_animation).into(holder.image);
+//        Picasso.with(context).load(photo.getImage()).placeholder(R.drawable.progress_animation).into(holder.image);
+
+
+
+        GlideApp.with(context)
+                .load(photo.getImage())
+                .thumbnail(Glide.with(context).load(R.drawable.ic_placeholder))
+                .into(holder.image);
 
         holder.title.setText(photo.getTitle());
 
@@ -100,8 +109,8 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            title = (TextView)itemView.findViewById(R.id.title);
-            image = (ImageView)itemView.findViewById(R.id.image);
+            title = itemView.findViewById(R.id.title);
+            image = itemView.findViewById(R.id.image);
 
         }
 
